@@ -38,3 +38,43 @@
 5. **区块链维护**：通过`AddBlock`函数将新区块添加到区块链中，并打印区块链信息。
 
 ## 运行方法
+
+1.**克隆项目**：
+
+```bash
+git clone https://github.com/ghostdoglzd/blockchain.git
+cd blockchain
+```
+
+2.**运行项目**
+
+```bash
+go run main.go
+```
+
+3.**输出示例**
+
+```
+Block Index: 0
+Block Hash: [创世区块的哈希值]
+Transaction: Alice -> Bob Amount: 10
+Transaction: Bob -> Charlie Amount: 5
+```
+
+## 项目结构
+
+```
+D:.
+│  go.mod
+│  readme.md
+│
+└─blockchain
+    │  main.go
+    │
+    └─blockchain
+            blockchain.go
+            proof.go
+            transacation.go
+            utils.go
+```
+
