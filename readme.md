@@ -66,16 +66,11 @@ go run main.go
 ```
 
 3. **访问Web界面**：
-   - 打开浏览器，访问 `http://localhost:8082` 来使用Web界面创建和查询交易。
+   - 打开浏览器，访问 `http://localhost:8081` 来使用Web界面创建和查询交易。
 
 4. **输出示例**：
 
-```
-Block Index: 0
-Block Hash: [创世区块的哈希值]
-Transaction: Alice -> Bob Amount: 10
-Transaction: Bob -> Charlie Amount: 5
-```
+![result](image/result.png)
 
 ## 项目结构
 
@@ -83,6 +78,7 @@ Transaction: Bob -> Charlie Amount: 5
 D:.
 │  go.mod
 │  readme.md
+│  result.png
 │
 └─blockchain
     │  main.go
