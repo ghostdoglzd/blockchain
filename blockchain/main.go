@@ -1,16 +1,20 @@
 // main.go
 package main
 
+import (
+	"blockchain/blockchain/blockchain"
+)
+
 func main() {
 	// 创建区块链
-	bc := NewBlockchain()
+	bc := blockchain.NewBlockchain()
 
 	// 创建交易池
-	tp := NewTransactionPool()
+	tp := blockchain.NewTransactionPool()
 
 	// 模拟一些交易
-	tp.AddTransaction(&Transaction{Sender: "Alice", Recipient: "Bob", Amount: 10})
-	tp.AddTransaction(&Transaction{Sender: "Bob", Recipient: "Charlie", Amount: 5})
+	tp.AddTransaction(&blockchain.Transaction{Sender: "Alice", Recipient: "Bob", Amount: 10})
+	tp.AddTransaction(&blockchain.Transaction{Sender: "Bob", Recipient: "Charlie", Amount: 5})
 
 	// 打包交易到新区块
 	tp.MineBlock(bc)
@@ -21,7 +25,7 @@ func main() {
 		println("Block Hash:", string(block.Hash))
 
 		// 反序列化交易数据
-		transactions, err := DeserializeTransactions(block.Data)
+		transactions, err := blockchain.DeserializeTransactions(block.Data)
 		if err != nil {
 			println("Failed to deserialize transactions:", err.Error())
 			continue

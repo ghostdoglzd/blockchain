@@ -1,4 +1,4 @@
-package main
+package blockchain
 
 import (
 	"bytes"
@@ -7,7 +7,7 @@ import (
 	"math/big"
 )
 
-const targetBits = 24
+const targetBits = 16
 const MaxNonce = math.MaxInt64
 
 type proofOfWork struct {
