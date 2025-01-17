@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Transaction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blockchain Transaction</h1>
+
+        <!-- 创建交易表单 -->
+        <form id="createTransactionForm">
+            <h2>Create Transaction</h2>
+            <label for="sender">Sender:</label>
+            <input type="text" id="sender" name="sender" required>
+            <label for="recipient">Recipient:</label>
+            <input type="text" id="recipient" name="recipient" required>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" required>
+            <button type="submit">Create Transaction</button>
+        </form>
+
+        <!-- 查询交易表单 -->
+        <form id="getTransactionForm">
+            <h2>Query Transactions</h2>
+            <label for="querySender">Sender Address:</label>
+            <input type="text" id="querySender" name="sender" required>
+            <button type="submit">Query Transactions</button>
+        </form>
+        <!-- 查询所有交易表单 -->
+        <form id="getAllTransactionsForm">
+            <h2>Query All Transactions</h2>
+            <button type="submit">Get All Transactions</button>
+        </form>
+        <!-- 显示查询结果 -->
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        // 创建交易
+        document.getElementById('createTransactionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const sender = document.getElementById('sender').value;
+            const recipient = document.getElementById('recipient').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            const response = await fetch('http://localhost:8081/createTransaction', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ Sender: sender, Recipient: recipient, Amount: amount }),
+            });
+
+            if (response.ok) {
+                alert('Transaction created successfully!');
+            } else {
+                alert('Failed to create transaction.');
+            }
+        });
+
+        // 查询交易
+        document.getElementById('getTransactionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const sender = document.getElementById('querySender').value;
+
+            const response = await fetch(`http://localhost:8081/getTransaction?sender=${sender}`);
+            const transactions = await response.json();
+
+            const resultDiv = document.getElementById('result');
+            if (transactions.length > 0) {
+                resultDiv.innerHTML = '<h3>Transactions:</h3>';
+                transactions.forEach(tx => {
+                    resultDiv.innerHTML += `
+                        <p>Sender: ${tx.Sender}, Recipient: ${tx.Recipient}, Amount: ${tx.Amount}</p>
+                    `;
+                });
+            } else {
+                resultDiv.innerHTML = '<p>No transactions found for this sender.</p>';
+            }
+        });
+        // 查询所有交易
+        document.getElementById('getAllTransactionsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const response = await fetch('http://localhost:8081/allTransactions');
+            const transactions = await response.json();
+
+            const resultDiv = document.getElementById('result');
+            if (transactions.length > 0) {
+                resultDiv.innerHTML = '<h3>All Transactions:</h3>';
+                transactions.forEach(tx => {
+                    resultDiv.innerHTML += `
+                        <p>Sender: ${tx.Sender}, Recipient: ${tx.Recipient}, Amount: ${tx.Amount}</p>
+                    `;
+                });
+            } else {
+                resultDiv.innerHTML = '<p>No transactions found.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

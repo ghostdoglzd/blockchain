@@ -1,6 +1,7 @@
 package blockchain
 
 import (
+	"encoding/json"
 	"time"
 )
 
@@ -30,7 +31,8 @@ func NewBlock(index int64, data []byte, prevHash []byte) *Block {
 }
 
 func NewGenesisBlock() *Block {
-	return NewBlock(0, []byte("Genesis Block"), []byte{})
+	emptyTransactions, _ := json.Marshal([]*Transaction{})
+	return NewBlock(0, emptyTransactions, []byte{})
 }
 
 type Blockchain struct {
